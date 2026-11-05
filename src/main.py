@@ -1,6 +1,7 @@
 import os
 import shutil
 from generate_page import generate_pages_recursive
+import sys
 
 def copy_content(source_dir: str, dest_dir:str)->None:
 
@@ -23,10 +24,16 @@ def copy_content(source_dir: str, dest_dir:str)->None:
 
 
 def main():
+    path = sys.argv
+    if len(path) == 1:
+        base_path = "/"
+    else:
+        base_path = path[1]
+
     if os.path.exists("public"):
         shutil.rmtree("public")
-    copy_content("static", "public")
-    generate_pages_recursive("content", "template.html", "public")
+    copy_content("static", "docs")
+    generate_pages_recursive("content", "template.html", "docs", base_path)
 
 
 if __name__ == "__main__":
